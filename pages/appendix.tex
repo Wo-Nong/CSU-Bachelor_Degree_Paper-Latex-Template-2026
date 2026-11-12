@@ -1,0 +1,42 @@
+% 以section形式将附录加入到目录中
+\addcontentsline{toc}{section}{附\hspace{2em}录}
+\phantomsection    % 创建目录超链接目标
+\phantom{ 空一行 }
+\vspace{-1em}    % 修正center自带空行
+\begin{center}
+	{\zihao{3}\heiti 附\qquad 录}
+\end{center}
+
+% 代码格式的设置
+\lstset{
+  basicstyle=\ttfamily\small,  % 设置基本字体
+  frame= shadowbox,   % 添加带阴影的边框
+  numbers=left,     % 行号显示在左侧
+  numberstyle=\tiny\color{gray},  % 行号颜色为灰色，tiny字体
+  keywordstyle=\color{blue},    % 关键字 for ,while ,if等，改为蓝色
+  commentstyle=\color{green},   % 注释样式：绿色
+  stringstyle=\color{red},   % 字符串显示样式：红色
+  breaklines=true,     % 长代码自动换行
+  showstringspaces=true  % 字符串中的空格不显示
+}
+
+\newcounter{appendix_counter}
+\newcommand{\theappsub}{\arabic{appendix_counter}}  % 新定义编号引用命令
+\crefname{appsub}{附录}{附录}    % 定义正文进行\ref时所使用的格式
+
+
+% 以subsection形式加入到目录当中
+\refstepcounter{appendix_counter}   % 建立/ref节点 , counter会自动+1
+\addcontentsline{toc}{subsection}{\theappsub \hspace{1em} Matlab代码示例 }  % 添加到目录中
+\phantomsection
+\arabic{appendix_counter}\hspace{1em} {\heiti\zihao{-4} Matlab代码示例}  % 标题
+	\lstinputlisting[language=Matlab, label={matlab_example}]
+		{codes/matlabcode.m}
+\vspace{1em}
+
+\refstepcounter{appendix_counter} 
+\addcontentsline{toc}{subsection}{\theappsub\hspace{1em} Python代码示例 } 
+\phantomsection
+\arabic{appendix_counter}\hspace{1em} {\heiti\zihao{-4} Python代码示例}
+	\lstinputlisting[language=Python, label={python_example}]
+		{codes/pythoncode.py}

@@ -1,0 +1,275 @@
+%================文档声明==================
+% a4纸张大小，基本字号为12pt(小四),编码为UTF8,
+\documentclass[a4paper,12pt,UTF8,hyperref]{ctexart} 
+
+%==========================使用彩色=============================
+%\usepackage[usenames,dvipsnames]{color}
+\usepackage{color}
+\usepackage[table]{xcolor}
+\usepackage{colortbl}
+\definecolor{mygray}{gray}{.9}
+\definecolor{mypink}{rgb}{.99,.91,.95}
+\definecolor{mycyan}{cmyk}{.3,0,0,0}
+\definecolor{darkred}{HTML}{8B0000}  % 深红色，用于交叉引用等内部链接
+%================================================================
+
+%========================电子文档与超链接======================
+\usepackage[backref=page,hyperfootnotes=false]{hyperref}
+\hypersetup{
+ %bookmarks = true,   % 启用pdf书签
+ bookmarksopen = true,   % 打开pdf时，书签默认展开
+ pdfborder=0 0 0,      % 控制pdf超链接的边框
+ %hyperfootnotes=false,   % 页脚不会跳转
+ pdfpagemode = FullScreen,   % 打开pdf时全屏模式
+ pdfstartview = Fit,  % 打开时主动适应窗口
+ pdftitle = {本科毕业设计(论文)},  % pdf文件的属性
+ colorlinks = true,   % 链接用文字颜色标识，不画边框
+ linkcolor = darkred,   % 交叉引用（\ref、\cref、图表、公式等）为深红色
+ citecolor = darkred,   % 文献引用为深红色
+ urlcolor = darkred,   % 网址/DOI 为深红色
+ linktoc = all,   % 目录中的标题和页码都可点击
+}
+\pdfbookmark[1]{Contents}{contents}
+%===============================================================
+
+%=======================字体与基本格式===========================
+\usepackage{fontspec}  % 提供系统字体调节能力
+\usepackage{xeCJK}  % 提供中文支持
+\usepackage[a4paper,left=3.0cm,right=2.0cm,top=2.5cm,bottom=3cm]{geometry}   % 整体页面大小设置
+\setmainfont{Times New Roman}%全文英文字体使用Times New Roman；
+\linespread{1.5}%全文1.5倍行距；
+\setCJKfamilyfont{hwxw}{STXinwei}      % 定义华文新魏  h
+\newcommand{\hwxw}{\CJKfamily{hwxw}}
+%=============================================================
+
+%========================设置页眉以及页脚基本格式===========================
+\usepackage{fancyhdr}% 为了保证正确长度的页眉下划线,fancyhdr宏包要在geometry宏包后使用；
+\usepackage{lastpage}  % 获取总页数，正文要用
+\pagestyle{fancy}
+\fancyhf{}  % 清空原有页眉页脚
+\setlength{\headheight}{27pt}   % 设置页眉大小
+\setlength{\headsep}{1em}  % 页眉底部到正文顶部距离
+\fancyhead[L]{\includegraphics[scale=0.125]{./figures/CSU_Logo.jpg}}
+\fancyhead[R]{\small\heiti 基于多模型融合的红茶发酵程度识别算法研究}
+\setlength{\footskip}{2em}
+% 页脚具体样式在document中设置，以满足不同页的不同要求
+%===============================================================
+
+%==========================目录格式===============================
+\usepackage{titletoc}  % 定制目录样式
+
+% section在目录中的样式
+\titlecontents{section}
+  [0em]                                  % 左缩进
+  {\normalsize}                           % 字体
+  {第\makebox[1em][c]{\thecontentslabel}章\quad}       % ★ 编号格式
+  {}                                     % 无编号时,及结束语、参考文献、附录
+  {\titlerule*[4pt]{.}\contentspage}     % 点线+页码
+  
+\titlecontents{subsection}
+  [2em]                                  % 左缩进
+  {\normalsize}                           % 字体
+  {\makebox[1em][c]{\thecontentslabel}\quad}       % ★ 编号格式
+  {}                                     % 无编号时,及结束语、参考文献、附录
+  {\titlerule*[4pt]{.}\contentspage}     % 点线+页码
+
+\titlecontents{subsubsection}
+  [4em]                                  % 左缩进
+  {\normalsize}                           % 字体
+  {\thecontentslabel\quad}       % ★ 编号格式
+  {}                                     % 无编号时,及结束语、参考文献、附录
+  {\titlerule*[4pt]{.}\contentspage}     % 点线+页码
+%===============================================================
+
+
+%========================章节及子标题格式=============================
+\usepackage{titlesec}  % 自定义章节格式
+\usepackage{indentfirst} % 每章第一正文也缩进
+\setlength{\parindent}{2em} % 缩进宽度为2em
+
+% 一二三级标题格式
+\titleformat{\section}[hang]{\heiti\zihao{3}\center}{第\makebox[1em][c]{\thesection}章 \quad}{0pt}{}{}  %一级标题格式
+\titleformat{\subsection}[hang]{\heiti\zihao{-4}}{\thesubsection \quad}{0pt}{}{} % 二级标题格式
+\titleformat{\subsubsection}[hang]{\zihao{-4}\kaishu}{\thesubsubsection \quad}{0pt}{}{} %三级标题格式
+
+% 设置标题边距，顺序为左上下正文
+\titlespacing*{\section}{2em}{1em}{1em}[0pt]  
+\titlespacing*{\subsection}{2em}{0pt}{0pt}[0pt]
+\titlespacing*{\subsubsection}{2em}{0pt}{0pt}[0pt]
+%===============================================================
+
+%==========================插入图片===================================
+\usepackage{graphicx}
+\usepackage{picinpar}%文字绕排
+\usepackage{caption}
+\usepackage{subcaption}  %两图并排
+\captionsetup{font=small,labelfont=bf,labelsep=quad}
+\captionsetup{skip=0pt}%标题与浮动环境内容的垂直间距无额外间距（设置为0pt）;
+%====================================================================
+
+%===============================插入表格======================================
+\usepackage{booktabs,multirow}%三线表
+\usepackage{longtable}%长表格
+\usepackage{bigstrut}
+\usepackage{diagbox}
+\usepackage{makecell}
+\usepackage{tabularx}
+\newcolumntype{Y}{>{\centering\arraybackslash}X}  % 新定义列形式，表格自动填满空行，并保持字体居中
+%=============================================================================
+
+%==========================解决三线表竖线过短的问题=============================
+\renewcommand{\cmidrulesep}{0mm} %定义两条相邻\cmidrule之间的间隔
+\setlength{\aboverulesep}{0mm} %在线条[不包括\toprule]上面增加一段垂直距离，此处为0mm
+\setlength{\belowrulesep}{0mm} %在线条[不包括\bottomrule]下面增加一条垂直距离，此处为0mm
+\setlength{\abovetopsep}{0cm}  %在线条\toprule上面，即表格与上面的文字之间的距离。
+\setlength{\belowbottomsep}{0cm}%在线条\bottomrule下面，即表格与下面的文字之间的距离。
+%===============================================================
+
+%==========================数学公式=============================
+\usepackage{amsmath}%公式
+\usepackage{amssymb}
+\usepackage{bm}%粗体
+\usepackage{upgreek}%直立希腊字母
+\usepackage{mhchem}%化学公式 \ce{SiO2} 或 \ce{H2O}
+\DeclareMathOperator\dif{d\!}%微分算子\frac{\dif y}{dif x}
+%\usepackage{xfrac}%行内小分式
+\newenvironment{sequation}{\begin{equation}\small}{\end{equation}}
+\newenvironment{tequation}{\begin{equation}\tiny}{\end{equation}}
+%===============================================================
+
+%=======================附录格式所需宏包=========================
+\usepackage{cleveref}  % cleveref的插入必须在amsmat之后，并且正文中可以直接使用/cref
+%=============================================================
+
+%==========================程序代码=============================
+\usepackage{listings}
+\usepackage{pythonhighlight}
+%===============================================================
+
+%=============================其它===============================
+\usepackage{siunitx}%摄氏度 \SI{100}{\degreeCelsius}
+\makeatletter%罗马数字
+\newcommand{\rmnum}[1]{\romannumeral #1}% 罗马数字
+\newcommand{\Rmnum}[1]{\expandafter\@slowromancap\romannumeral #1@}%罗马数字
+\makeatother%罗马数字 \Rmnum{1} 或 \Rmnum{2} 或 \rmnum{3}
+\usepackage{xfrac}%行内小分式
+%==================================================================
+
+%=============================文献格式===============================
+\usepackage[sort]{gbt7714}%文献格式使用GB/T7714-2015标准；
+\newcommand{\upcite}[1]{\textsuperscript{\textsuperscript{\cite{#1}}}}
+\usepackage{natbib}
+\renewcommand\bibfont{\small\kaishu}%文献改用5号楷书字体；
+\setlength\bibsep{0pt}%取消不同文献条目之间的距离；
+\usepackage{url}
+%==================================================================
+
+%=========================一个更好的下划线设置=======================
+\usepackage{ulem}
+\usepackage{enumitem}
+\usepackage{hhline}% 双线表
+\newcommand\dlmu[2][4cm]{\hskip1pt\underline{\hb@xt@ #1{\hss#2\hss}}\hskip3pt}
+%==================================================================
+
+%=========================公式、图表按章编号===============================
+\makeatletter
+\@addtoreset{equation}{section}
+\makeatother
+\renewcommand{\theequation}{\arabic{section}-\arabic{equation}}
+
+\makeatletter
+\@addtoreset{figure}{section}
+\makeatother
+\renewcommand{\thefigure}{\thesection\,-\,\arabic{figure}}
+
+\makeatletter
+\@addtoreset{table}{section}
+\makeatother
+\renewcommand{\thetable}{\thesection\,-\,\arabic{table}}
+%==================================================================
+
+\usepackage{ifpdf}
+
+\newtheorem{thm}{定理}
+
+%==============积分符号修改，改原倾斜的积分符号为直立体==================
+\usepackage{amsmath,amssymb}
+\DeclareSymbolFont{EulerExtension}{U}{euex}{m}{n}
+\DeclareMathSymbol{\euintop}{\mathop} {EulerExtension}{"52}
+\DeclareMathSymbol{\euointop}{\mathop} {EulerExtension}{"48}
+\let\intop\euintop
+\let\ointop\euointop
+%==================================================================
+
+%=====================图标引用格式的修改=========================
+% 表格
+\crefname{table}{表}{表}
+\Crefname{table}{表}{表}
+\creflabelformat{table}{#2~#1#3}  
+
+% 子表
+\crefname{subtable}{表}{表}
+\Crefname{subtable}{表}{表}
+\creflabelformat{subtable}{#2~#1#3}
+
+% 图
+\crefname{figure}{图}{图}
+\Crefname{figure}{图}{图}
+\creflabelformat{figure}{#2~#1#3}
+
+% 子图
+\crefname{subfigure}{图}{图}
+\Crefname{subfigure}{图}{图}
+\creflabelformat{subfigure}{#2~#1#3}
+%================================================================
+
+
+% =========================== 以下是文章表示==============================
+\usepackage{doc}%BibTeX显示；
+\begin{document}
+    % 封面页
+    \input{./pages/cover.tex}  
+    \clearpage 
+
+    % 学位论文原创性声明-2026新增
+    \input{./pages/statement.tex}
+    \clearpage
+
+    % 摘要页及目录页 
+    % 1.页脚格式：罗马大写字母
+    \setcounter{page}{1}
+    \pagenumbering{Roman}
+    \cfoot{\small\thepage}
+
+    % 2.引入摘要页
+    \input{./pages/abstract.tex}
+    \newpage
+
+    % 目录页
+    \phantom{空一行}
+    \vspace{-1em} % 向上修正页眉与正文之间的统一空行1em
+    % 目录文字（含页码）设为黑色：仅在目录范围内把链接颜色改为黑色，
+    % 目录之后恢复 \hypersetup 中的深红色，不影响正文交叉引用
+    \begingroup
+    \hypersetup{linkcolor=black}
+    \tableofcontents
+    \endgroup
+    \newpage
+
+    % 正文
+    \setcounter{page}{1}
+    \pagenumbering{arabic}
+    \cfoot{\small 第\ \thepage\ 页\quad 共 \pageref{LastPage} 页}
+    \input{./pages/body.tex}
+    \newpage
+
+    % 参考文献  
+    \addcontentsline{toc}{section}{参考文献}
+    \nocite{*}  % 不论有没有引用，都放在文献列表中
+    \bibliographystyle{gbt7714-numerical}%命令选择参考文献样式 
+    \bibliography{./literature/thesis}    % 引入参考文件bib
+    \newpage
+
+    % 附录
+    \input{./pages/appendix.tex}
+\end{document}
